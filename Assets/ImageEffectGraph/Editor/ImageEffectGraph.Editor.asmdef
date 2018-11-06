@@ -1,0 +1,19 @@
+{
+    "name": "ImageEffectGraph.Editor",
+    "references": [
+        "ImageEffectGraph",
+        "Unity.ShaderGraph.Editor",
+        "Unity.Postprocessing.Runtime",
+        "Unity.Postprocessing.Editor"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
