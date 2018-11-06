@@ -15,7 +15,7 @@ Please note that the example comes with 3 scenes, for legacy, HD pipeline, and l
 Make sure to select an appropriate pipeline asset when trying a scene.
 ```
 
-![](https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/transition.gif)
+![](Preview/transition.gif)
 <img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/invert.png" width="600">
 
 # Camera transition effect textures
