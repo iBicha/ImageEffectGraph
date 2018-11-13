@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Text;
 using UnityEditor.Graphing;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 
-namespace UnityEditor.ShaderGraph
+namespace ImageEffectGraph.Editor
 {
     [Serializable]
     public class RuntimeTextureShaderProperty : AbstractShaderProperty<Texture>
