@@ -21,7 +21,27 @@ namespace ImageEffectGraph.PostProcessing
     public class RenderWithMaterialRenderer : PostProcessEffectRenderer<RenderWithMaterial>
     {
         private static int _MainTex = Shader.PropertyToID("_MainTex");
+                
+#if UNITY_EDITOR
+
         private static int _PreviewTexture = Shader.PropertyToID("_PreviewTexture");
+//        private CommandBuffer previewCommandBuffer;
+        private RenderTexture rt;
+
+        public override void Init()
+        {
+            base.Init();
+            rt = new RenderTexture(512, 512, 32, RenderTextureFormat.ARGB32);
+//            previewCommandBuffer = new CommandBuffer();
+        }
+
+        public override void Release()
+        {
+            base.Release();
+            Object.DestroyImmediate(rt);
+//            previewCommandBuffer.Dispose();
+        }
+#endif
 
         public override DepthTextureMode GetCameraFlags()
         {
@@ -33,7 +53,14 @@ namespace ImageEffectGraph.PostProcessing
 #if UNITY_EDITOR
             if (!context.isSceneView)
             {
-                context.command.SetGlobalTexture(_PreviewTexture, context.source);
+//                previewCommandBuffer.Clear();
+//                Blit(context.command, context.source, rt, null);
+                context.command.Blit(context.source, rt);
+//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
+                
+//                previewCommandBuffer.Clear();
+                context.command.SetGlobalTexture(_PreviewTexture, rt);
+//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
             }
 #endif
         

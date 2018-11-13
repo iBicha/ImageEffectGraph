@@ -35,4 +35,4 @@ MonoBehaviour:
     value: {fileID: 2100000, guid: b94234e7349dc4e5bbd5575b9377d263, type: 2}
   depthMode:
     overrideState: 0
-    value: 0
+    value: 1

@@ -25,10 +25,6 @@ ${Defines}
     #define SAMPLER(samplerName) SamplerState samplerName
     #define SAMPLE_TEXTURE2D(textureName, samplerName, coord2) textureName.Sample(samplerName, coord2)
 
-    TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex); float4 _MainTex_TexelSize;
-    TEXTURE2D(_CameraDepthTexture); SAMPLER(sampler_CameraDepthTexture); 
-    TEXTURE2D(_CameraMotionVectorsTexture); SAMPLER(sampler_CameraMotionVectorsTexture); 
-
 ${Graph}
     struct GraphVertexOutput
     {
