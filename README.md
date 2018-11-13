@@ -21,6 +21,9 @@ Make sure to select an appropriate pipeline asset when trying a scene.
 
 `Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)`
 
-# Camera transition effect textures
+### acknowledgement
+##### Camera transition effect textures
 I think the original idea of the camera transition effect was from [here](https://www.youtube.com/watch?v=LnAoD7hgDxw) (the shader is pretty different though, and is created with shader graph)
 Nonetheless, the [texture files](Assets/Sample/Assets/Textures) for the transitions were definitely from the package of that tutorial (Thus belongs to their creator, and are not under MIT license - but under CC 4.0 last time I checked).
+##### TV effect
+Taken straight from [keijiro/ShaderGraphExamples](https://github.com/keijiro/ShaderGraphExamples/tree/master/Assets/Examples/TV)
