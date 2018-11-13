@@ -9,7 +9,7 @@ This repo is attempt to extend ShaderGraph to create postprocessing effects comp
 ### Getting started
 To get started, create a effect graph using the context menu `Assets -> Create -> Shader -> Image Effect Graph`. Create a material, and assign the shader to it. Finally, add the `Render With Material` effect to your postprocessing volume, and assign the material to it.
 
-Please note that there are a couple of effect examples (Invert colors, and camera transitions)
+Please note that there are a couple of effect examples (Invert colors, camera transitions, TV flicker)
 
 ```
 Please note that the example comes with 3 scenes, for legacy, HD pipeline, and lightweight graphics.
