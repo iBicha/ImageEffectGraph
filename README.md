@@ -1,4 +1,5 @@
 ##### :warning: This repo is extremely experimental, hacky and buggy. For now, it is everything you don't want to use in production. 
+(In simpler words, things are constantly getting fixes, and there are constant changes to serialization and shader generation, which might not be backward compatible with effects created with a previous version of this tool. This shall change once this repo gets to a stable state)
 
 # ImageEffectGraph
 Image effects for post processing stack created with shader graph for Unity
@@ -17,6 +18,8 @@ Make sure to select an appropriate pipeline asset when trying a scene.
 
 ![](Preview/transition.gif)
 <img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/invert.png" width="600">
+
+`Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)`
 
 # Camera transition effect textures
 I think the original idea of the camera transition effect was from [here](https://www.youtube.com/watch?v=LnAoD7hgDxw) (the shader is pretty different though, and is created with shader graph)
