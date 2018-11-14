@@ -43,7 +43,7 @@ namespace ImageEffectGraph.Editor
                 inputTextureName = unityPreviewInputTexture;
             }
             
-            properties.AddShaderProperty(new RuntimeTextureShaderProperty()
+            properties.AddShaderProperty(new TextureShaderProperty()
             {
                 displayName = "Main Texture",
                 overrideReferenceName = inputTextureName,
