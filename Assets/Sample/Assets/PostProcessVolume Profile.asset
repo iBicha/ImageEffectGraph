@@ -32,7 +32,7 @@ MonoBehaviour:
     value: 1
   material:
     overrideState: 1
-    value: {fileID: 2100000, guid: b94234e7349dc4e5bbd5575b9377d263, type: 2}
+    value: {fileID: 2100000, guid: 25435d20b534145198b6504ed75ea06f, type: 2}
   depthMode:
     overrideState: 0
     value: 1
