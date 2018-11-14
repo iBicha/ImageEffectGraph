@@ -31,4 +31,4 @@ Nonetheless, the [texture files](Assets/Sample/Assets/Textures) for the transiti
 ##### TV effect
 Taken straight from [keijiro/ShaderGraphExamples](https://github.com/keijiro/ShaderGraphExamples/tree/master/Assets/Examples/TV)
 ##### Overlay effect texture
-Texture from [keijiro/SketchyFx](https://github.com/keijiro/SketchyFx/blob/master/Assets/Textures/OTF_Crumpled_Paper_08.jpg)
+Texture from [keijiro/SketchyFx (OTF_Crumpled_Paper_08.jpg)](https://github.com/keijiro/SketchyFx/blob/master/Assets/Textures/OTF_Crumpled_Paper_08.jpg) by Brent Leimenstoll
