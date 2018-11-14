@@ -39,12 +39,24 @@ ${VertexOutputStruct}
     {
         GraphVertexOutput o = (GraphVertexOutput)0;
 
+//BUG: Keyword added from CS script is ignored.
+#ifndef UNITY_POST_PROCESSING_STACK_V2
+ #define UNITY_POST_PROCESSING_STACK_V2
+#endif // UNITY_POST_PROCESSING_STACK_V2
+
+
+#ifdef UNITY_POST_PROCESSING_STACK_V2
         o.position = float4(v.vertex.xy, 0.0, 1.0);
         o.uv0 = half4((v.vertex.xy + 1.0) * 0.5, 0, 0);
-                
 #if UNITY_UV_STARTS_AT_TOP
         o.uv0 = o.uv0 * half4(1.0, -1.0, 0, 0) + half4(0.0, 1.0, 0, 0);
 #endif
+#else
+        o.position = UnityObjectToClipPos(v.vertex);
+        o.uv0 = v.vertex;
+#endif
+        
+        
         return o;
     }
 

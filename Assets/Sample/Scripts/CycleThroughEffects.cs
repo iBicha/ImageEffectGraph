@@ -12,6 +12,7 @@ namespace ImageEffectGraph.Demo
         public Material[] materials;
 
         private RenderWithMaterial settings;
+        private CameraImageEffect cameraImageEffect;
         private int effectIndex = -1;
 
         private TransitionController transitionController;
@@ -21,14 +22,18 @@ namespace ImageEffectGraph.Demo
         void Start()
         {
             var volume = GetComponent<PostProcessVolume>();
-            if (!volume.profile.HasSettings<RenderWithMaterial>())
+            if(volume != null)
             {
-                Debug.LogWarning("RenderWithMaterial effect not found");
-                Destroy(this);
-                return;
+                if (!volume.profile.HasSettings<RenderWithMaterial>())
+                {
+                    Debug.LogWarning("RenderWithMaterial effect not found");
+                    Destroy(this);
+                    return;
+                }
+                settings = volume.profile.GetSetting<RenderWithMaterial>();
             }
-
-            settings = volume.profile.GetSetting<RenderWithMaterial>();
+            
+            cameraImageEffect = GetComponent<CameraImageEffect>();
             transitionController = GetComponent<TransitionController>();
 
             InvokeRepeating("SetNextEffect", 0, cycleInterval);
@@ -37,7 +42,15 @@ namespace ImageEffectGraph.Demo
         private void SetNextEffect()
         {
             effectIndex = (effectIndex + 1) % materials.Length;
-            settings.material.value = materials[effectIndex];
+            
+            if (settings != null)
+            {
+                settings.material.value = materials[effectIndex];
+            }
+            else
+            {
+                cameraImageEffect.material = materials[effectIndex];
+            }
 
             if (materials[effectIndex] == transitionController.material)
             {

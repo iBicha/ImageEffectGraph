@@ -31,6 +31,10 @@ namespace ImageEffectGraph.PostProcessing
         public override void Init()
         {
             base.Init();
+            //BUG: Can't add more keywords. How to tell shader we're on the stack?
+            const string keyword = "UNITY_POST_PROCESSING_STACK_V2";
+            Shader.EnableKeyword(keyword);
+
             rt = new RenderTexture(512, 512, 32, RenderTextureFormat.ARGB32);
 //            previewCommandBuffer = new CommandBuffer();
         }

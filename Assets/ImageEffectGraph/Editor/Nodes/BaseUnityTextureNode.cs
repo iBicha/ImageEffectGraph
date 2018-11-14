@@ -34,9 +34,6 @@ namespace ImageEffectGraph.Editor
             
             return base.GetVariableNameForSlot(slotId);
         }
-
-        [SerializeField]
-        private SerializableTexture m_Texture = new SerializableTexture();
         
         public override void CollectShaderProperties(PropertyCollector properties, GenerationMode generationMode)
         {
