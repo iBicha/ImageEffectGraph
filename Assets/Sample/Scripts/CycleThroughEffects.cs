@@ -53,21 +53,26 @@ namespace ImageEffectGraph.Demo
                 styleLabel = new GUIStyle(GUI.skin.box) {fontSize = 36};
                 styleButton = new GUIStyle(GUI.skin.button) {fontSize = 36};
             }
-
+            
+            GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
             GUILayout.BeginHorizontal();
+            
             if (effectIndex != -1)
             {
                 GUILayout.Label(materials[effectIndex].name, styleLabel);
             }
-
+            
+            GUILayout.FlexibleSpace();
+            
             if (GUILayout.Button("Next effect", styleButton))
             {
+                //Stop auto cycle if clicked on next
                 CancelInvoke();
                 SetNextEffect();
-                InvokeRepeating("SetNextEffect", cycleInterval, cycleInterval);
             }
 
             GUILayout.EndHorizontal();
+            GUILayout.EndArea();
         }
     }
 }
