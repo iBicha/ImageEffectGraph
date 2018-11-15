@@ -29,7 +29,7 @@ Make sure to select an appropriate pipeline asset when trying a scene.
 </p>
 
 
-### acknowledgement
+### Acknowledgements
 ##### Camera transition effect textures
 I think the original idea of the camera transition effect was from [here](https://www.youtube.com/watch?v=LnAoD7hgDxw) (the shader is pretty different though, and is created with shader graph)
 Nonetheless, the [texture files](Assets/Sample/Assets/Textures) for the transitions were definitely from the package of that tutorial (Thus belongs to their creator, and are not under MIT license - but under CC 4.0 last time I checked).
@@ -37,3 +37,5 @@ Nonetheless, the [texture files](Assets/Sample/Assets/Textures) for the transiti
 Taken straight from [keijiro/ShaderGraphExamples](https://github.com/keijiro/ShaderGraphExamples/tree/master/Assets/Examples/TV)
 ##### Overlay effect texture
 Texture from [keijiro/SketchyFx (OTF_Crumpled_Paper_08.jpg)](https://github.com/keijiro/SketchyFx/blob/master/Assets/Textures/OTF_Crumpled_Paper_08.jpg) by Brent Leimenstoll
+##### Regular Hexagon Tiling effect
+Translated from [ShaderToy](https://www.shadertoy.com/view/4ldGWB), original shader by [_pwd_](https://www.shadertoy.com/user/_pwd_)
