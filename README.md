@@ -1,7 +1,11 @@
 # ImageEffectGraph
 Image effects for post processing stack created with shader graph for Unity
 
-![](Preview/showcase.gif)
+<p align="center">
+  <img src="Preview/showcase.gif"><br>
+  <img src="Preview/ar.gif"><br>
+  <i>ImageEffectGraph running on an <a href="https://github.com/iBicha/MobileARTest">AR Foundation app</a></i>
+</p>
 
 This repo is attempt to extend ShaderGraph to create postprocessing effects compatible with the Postprocessing Stack, using the either the new Scriptable Render Pipeline (HD/Lightweight) or legacy graphics.
 
@@ -18,11 +22,12 @@ The demo scenes will cycle through them automatically to showcase the examples.
 Please note that the example comes with 3 scenes, for legacy, HD pipeline, and lightweight graphics.
 Make sure to select an appropriate pipeline asset when trying a scene.
 ```
+<p align="center">
+  <img src="Preview/transition.gif"><br>
+  <img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/invert.png" width="600"><br>
+  <i>Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)</i>
+</p>
 
-![](Preview/transition.gif)
-<img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/invert.png" width="600">
-
-`Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)`
 
 ### acknowledgement
 ##### Camera transition effect textures
