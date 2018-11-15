@@ -2,11 +2,14 @@
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 using UnityEditor.ShaderGraph;
+using UnityEngine;
 
 namespace ImageEffectGraph.Editor
 {
     public class CreateImageEffectShaderGraph : EndNameEditAction
     {
+        public static bool CreateShaderWithMaterial = true;
+
         [MenuItem("Assets/Create/Shader/Image Effect Graph", false, 208)]
         public static void CreateMaterialGraph()
         {
@@ -33,7 +36,7 @@ namespace ImageEffectGraph.Editor
                 masterNode.GetSlotReference(ImageEffectMasterNode.ColorSlotId));
 
             var nodes = new AbstractMaterialNode[] {masterNode, mainTextureSamplerNode, mainTextureNode};
-          
+
             for (int i = 0; i < nodes.Length; i++)
             {
                 var node = nodes[i];
@@ -46,6 +49,17 @@ namespace ImageEffectGraph.Editor
 
             File.WriteAllText(pathName, EditorJsonUtility.ToJson(graph));
             AssetDatabase.Refresh();
+
+            if (CreateShaderWithMaterial)
+            {
+                var shaderName = Path.GetFileNameWithoutExtension(pathName);
+                var shader = Shader.Find(shaderName);
+                if (shader == null) return;
+                var material = new Material(shader);
+                var materialPath = Path.Combine(Path.GetDirectoryName(pathName), shaderName + ".mat");
+                AssetDatabase.CreateAsset(material, materialPath);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }
