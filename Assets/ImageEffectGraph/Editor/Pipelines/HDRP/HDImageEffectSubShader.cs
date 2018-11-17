@@ -165,6 +165,7 @@ namespace ImageEffectGraph.Editor.HDPipeline
             modelRequiements.requiresBitangent |= k_PixelCoordinateSpace;
             modelRequiements.requiresPosition |= k_PixelCoordinateSpace;
             modelRequiements.requiresViewDir |= k_PixelCoordinateSpace;
+            modelRequiements.requiresMeshUVs.Add(UVChannel.UV0);
             modelRequiements.requiresMeshUVs.Add(UVChannel.UV1);
 
             // ----------------------------------------------------- //
