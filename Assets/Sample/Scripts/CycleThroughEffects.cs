@@ -39,9 +39,19 @@ namespace ImageEffectGraph.Demo
             InvokeRepeating("SetNextEffect", 0, cycleInterval);
         }
 
-        private void SetNextEffect()
+        public void SetNextEffect()
         {
-            effectIndex = (effectIndex + 1) % materials.Length;
+            StepToEffect(1);
+        }
+        
+        public void SetPreviousEffect()
+        {
+            StepToEffect(-1);
+        }
+
+        private void StepToEffect(int step)
+        {
+            effectIndex = (effectIndex + materials.Length + step) % materials.Length;
             
             if (settings != null)
             {
@@ -63,13 +73,22 @@ namespace ImageEffectGraph.Demo
             //This is not good, but whatever.
             if (styleLabel == null || styleButton == null)
             {
-                styleLabel = new GUIStyle(GUI.skin.box) {fontSize = 36};
-                styleButton = new GUIStyle(GUI.skin.button) {fontSize = 36};
+                styleLabel = new GUIStyle(GUI.skin.box) {fontSize = 28};
+                styleButton = new GUIStyle(GUI.skin.button) {fontSize = 28};
             }
             
             GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
             GUILayout.BeginHorizontal();
             
+            if (GUILayout.Button("Previous effect", styleButton))
+            {
+                //Stop auto cycle if clicked on next
+                CancelInvoke();
+                SetPreviousEffect();
+            }
+
+            GUILayout.FlexibleSpace();
+
             if (effectIndex != -1)
             {
                 GUILayout.Label(materials[effectIndex].name, styleLabel);
