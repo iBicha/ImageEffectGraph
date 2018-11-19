@@ -92,9 +92,8 @@ namespace ImageEffectGraph.Demo
             if (effectIndex != -1)
             {
                 GUILayout.Label(materials[effectIndex].name, styleLabel);
+                GUILayout.FlexibleSpace();
             }
-            
-            GUILayout.FlexibleSpace();
             
             if (GUILayout.Button("Next effect", styleButton))
             {
