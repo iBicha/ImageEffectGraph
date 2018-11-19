@@ -20,9 +20,11 @@ ${Defines}
 
     //Common API include
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
     #include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/UnityInput.hlsl"
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
-
+    #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
+ 
 ${Graph}
     struct GraphVertexOutput
     {
