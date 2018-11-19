@@ -19,7 +19,9 @@ namespace ImageEffectGraph.Editor.PostProcessing
         protected SerializedObject serializedObject { get; private set; }
 
         private MaterialEditor materialEditor;
+        private UnityEditor.Editor cachedEditor;
         private Material cachedMaterial;
+        private MaterialProperty[] properties;
 
         public override void OnEnable()
         {
@@ -32,9 +34,11 @@ namespace ImageEffectGraph.Editor.PostProcessing
             //Show material
             OnInspectorGuiDefault();
             serializedObject.ApplyModifiedProperties();
+            
+            EditorGUILayout.Space();
+
             //Show material properties
             var settings = (RenderWithMaterial) target;
-
             var guiEnabled = GUI.enabled;
             GUI.enabled = settings.material.overrideState;
             MaterialPropertiesGui(settings.material.value);
@@ -56,11 +60,12 @@ namespace ImageEffectGraph.Editor.PostProcessing
             if (materialEditor == null || cachedMaterial != material)
             {
                 cachedMaterial = material;
-                materialEditor =
-                    (MaterialEditor) UnityEditor.Editor.CreateEditor(cachedMaterial, typeof(MaterialEditor));
+                UnityEditor.Editor.CreateCachedEditor(cachedMaterial, typeof(MaterialEditor), ref cachedEditor);
+                materialEditor = (MaterialEditor) cachedEditor;
+                properties = MaterialEditor.GetMaterialProperties(new UnityEngine.Object[] {cachedMaterial});
             }
 
-            materialEditor.PropertiesGUI();
+            materialEditor.PropertiesDefaultGUI(properties);
         }
 
 
