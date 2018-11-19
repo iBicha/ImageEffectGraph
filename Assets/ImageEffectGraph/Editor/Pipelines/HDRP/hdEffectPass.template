@@ -41,15 +41,15 @@ ${VertexOutputStruct}
         GraphVertexOutput o = (GraphVertexOutput)0;
 
         o.position = float4(v.vertex.xy, 0.0, 1.0);
-        o.uv0 = half4((v.vertex.xy + 1.0) * 0.5, 0, 0);
+        o.uv0 = float4((v.vertex.xy + 1.0) * 0.5, 0, 0);
                 
 #if UNITY_UV_STARTS_AT_TOP
-        o.uv0 = o.uv0 * half4(1.0, -1.0, 0, 0) + half4(0.0, 1.0, 0, 0);
+        o.uv0 = o.uv0 * float4(1.0, -1.0, 0, 0) + float4(0.0, 1.0, 0, 0);
 #endif
         return o;
     }
 
-    half4 frag (GraphVertexOutput IN ${FaceSign}) : SV_Target
+    float4 frag (GraphVertexOutput IN ${FaceSign}) : SV_Target
     {
         UNITY_SETUP_INSTANCE_ID(IN);
 
@@ -65,7 +65,7 @@ ${PixelShaderSurfaceInputs}
         // Surface description remap performed by graph
 ${PixelShaderSurfaceRemap}
         
-        return half4(Color, 1);
+        return float4(Color, 1);
     }
     ENDHLSL
 }
