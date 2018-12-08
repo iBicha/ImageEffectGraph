@@ -34,7 +34,7 @@ namespace ImageEffectGraph.Editor.PostProcessing
             //Show material
             OnInspectorGuiDefault();
             serializedObject.ApplyModifiedProperties();
-            
+
             EditorGUILayout.Space();
 
             //Show material properties
@@ -43,7 +43,94 @@ namespace ImageEffectGraph.Editor.PostProcessing
             GUI.enabled = settings.material.overrideState;
             MaterialPropertiesGui(settings.material.value);
             GUI.enabled = guiEnabled;
+
+            //TODO: figure out how to duplicate same effect, and get them to render as well
+            //https://github.com/iBicha/ImageEffectGraph/issues/7
+            /*
+            if (GUILayout.Button("Create another effect", EditorStyles.miniButton))
+            {
+                CreateNewRenderWithMaterialEffect();
+            }
+            */
         }
+
+        private void CreateNewRenderWithMaterialEffect()
+        {
+            var effectListEditor = FindEffectListContainingThisEditor();
+            if (effectListEditor != null)
+            {
+                var tyEffectListEditor = typeof(EffectListEditor);
+                var MIAddEffectOverride =
+                    tyEffectListEditor.GetMethod("AddEffectOverride", BindingFlags.NonPublic | BindingFlags.Instance);
+                MIAddEffectOverride.Invoke(effectListEditor, new object[] {typeof(RenderWithMaterial)});
+            }
+        }
+
+        private EffectListEditor FindEffectListContainingThisEditor()
+        {
+            var tyEffectListEditor = typeof(EffectListEditor);
+            var tyPostProcessVolumeEditor =
+                tyEffectListEditor.Assembly.GetType(
+                    "UnityEditor.Rendering.PostProcessing.PostProcessVolumeEditor");
+
+            var tyPostProcessProfileEditor =
+                tyEffectListEditor.Assembly.GetType(
+                    "UnityEditor.Rendering.PostProcessing.PostProcessProfileEditor");
+
+            var volumeEditors = Resources.FindObjectsOfTypeAll(tyPostProcessVolumeEditor);
+            var profileEditors = Resources.FindObjectsOfTypeAll(tyPostProcessProfileEditor);
+
+            List<EffectListEditor> effectListEditors = new List<EffectListEditor>();
+
+            if (volumeEditors.Length > 0)
+            {
+                var FIm_EffectList =
+                    tyPostProcessVolumeEditor.GetField("m_EffectList", BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var volumeEditor in volumeEditors)
+                {
+                    var effectListEditor = (EffectListEditor) FIm_EffectList.GetValue(volumeEditor);
+                    if (effectListEditor != null)
+                    {
+                        effectListEditors.Add(effectListEditor);
+                    }
+                }
+            }
+
+            if (profileEditors.Length > 0)
+            {
+                var FIm_EffectList =
+                    tyPostProcessProfileEditor.GetField("m_EffectList", BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var profileEditor in profileEditors)
+                {
+                    var effectListEditor = (EffectListEditor) FIm_EffectList.GetValue(profileEditor);
+                    if (effectListEditor != null)
+                    {
+                        effectListEditors.Add(effectListEditor);
+                    }
+                }
+            }
+
+            if (effectListEditors.Count > 0)
+            {
+                var FIm_Editors =
+                    tyEffectListEditor.GetField("m_Editors", BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var effectListEditor in effectListEditors)
+                {
+                    List<PostProcessEffectBaseEditor> m_Editors =
+                        (List<PostProcessEffectBaseEditor>) FIm_Editors.GetValue(effectListEditor);
+                    if (m_Editors != null)
+                    {
+                        if (m_Editors.Contains(this))
+                        {
+                            return effectListEditor;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
 
         public override string GetDisplayTitle()
         {

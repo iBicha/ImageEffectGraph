@@ -28,6 +28,8 @@ Make sure to select an appropriate pipeline asset when trying a scene.
   <i>Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)</i>
 </p>
 
+### Using multiple effects
+Please refer to [this](https://github.com/iBicha/ImageEffectGraph/issues/7)
 
 ### Acknowledgements
 ##### Camera transition effect textures
