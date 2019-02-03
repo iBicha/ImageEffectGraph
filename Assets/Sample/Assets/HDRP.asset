@@ -162,7 +162,6 @@ MonoBehaviour:
     supportTransparentDepthPostpass: 1
     supportedLitShaderMode: 3
     supportDecals: 1
-    supportMSAA: 0
     msaaSampleCount: 1
     supportMotionVectors: 1
     supportRuntimeDebugDisplay: 1
@@ -192,7 +191,7 @@ MonoBehaviour:
     hdShadowInitParams:
       shadowAtlasResolution: 4096
       maxShadowRequests: 128
-      shadowMapsDepthBits: 24
+      shadowMapsDepthBits: 32
       useDynamicViewportRescale: 1
       shadowQuality: 0
     decalSettings:
