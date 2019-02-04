@@ -61,17 +61,24 @@ namespace ImageEffectGraph.PostProcessing
         public override void Render(PostProcessRenderContext context)
         {
 #if UNITY_EDITOR
-            if (context.camera.cameraType == CameraType.Game)
+            // if (!context.isSceneView)
+            if(context.camera.cameraType == CameraType.Game)
             {
-                if (aspectBlit != null)
-                {
-                    aspectBlit.SetFloat(AspectRatio, context.width / (float) context.height);
-                    aspectBlit.SetColor(BackgroundColor, context.camera.backgroundColor);
-                }
-
-                context.command.Blit(context.source, previewRenderTexture, aspectBlit);
-                context.command.SetGlobalTexture(_PreviewTexture, previewRenderTexture);
+//                previewCommandBuffer.Clear();
+//                Blit(context.command, context.source, rt, null);
+                context.command.Blit(context.source, rt);
+//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
+                
+//                previewCommandBuffer.Clear();
+                context.command.SetGlobalTexture(_PreviewTexture, rt);
+//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);                
             }
+            else
+            {
+                context.command.Blit(context.source, context.destination);
+                // We don't apply the post processing in Scene View.
+                return;
+            }            
 #endif
 
             var sampleName = $"RenderWithMaterial({settings.material})";
