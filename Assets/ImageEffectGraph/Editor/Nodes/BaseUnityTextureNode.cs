@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
@@ -24,47 +25,51 @@ namespace ImageEffectGraph.Editor
         public sealed override void UpdateNodeAfterDeserialization()
         {
             AddSlot(new Texture2DMaterialSlot(OutputSlotId, kOutputSlotName, kOutputSlotName, SlotType.Output));
-            RemoveSlotsNameNotMatching(new[] { OutputSlotId });
+            RemoveSlotsNameNotMatching(new[] {OutputSlotId});
         }
 
         public override string GetVariableNameForSlot(int slotId)
         {
+            var generationMode = Environment.StackTrace.Contains(".PreviewManager.")
+                ? GenerationMode.Preview
+                : GenerationMode.ForReals;
+
             if (slotId == OutputSlotId)
-                return unityInputTexture;
-            
+                return generationMode.IsPreview() && !string.IsNullOrEmpty(unityPreviewInputTexture)
+                    ? unityPreviewInputTexture
+                    : unityInputTexture;
+
             return base.GetVariableNameForSlot(slotId);
         }
-        
+
         public override void CollectShaderProperties(PropertyCollector properties, GenerationMode generationMode)
         {
-            var inputTextureName = unityInputTexture;
-            if (generationMode == GenerationMode.Preview && !string.IsNullOrEmpty(unityPreviewInputTexture))
-            {
-                inputTextureName = unityPreviewInputTexture;
-            }
-            
+            base.CollectShaderProperties(properties, generationMode);
             properties.AddShaderProperty(new TextureShaderProperty()
             {
                 displayName = "Main Texture",
-                overrideReferenceName = inputTextureName,
+                overrideReferenceName = unityInputTexture,
                 generatePropertyBlock = false
             });
 
+            if (generationMode.IsPreview() && !string.IsNullOrEmpty(unityPreviewInputTexture))
+            {
+                properties.AddShaderProperty(new TextureShaderProperty()
+                {
+                    displayName = "Preview Texture",
+                    overrideReferenceName = unityPreviewInputTexture,
+                    generatePropertyBlock = false
+                });
+            }
         }
 
         public override void CollectPreviewMaterialProperties(List<PreviewProperty> properties)
         {
-            var inputTextureName = unityInputTexture;
-            if (!string.IsNullOrEmpty(unityPreviewInputTexture))
-            {
-                inputTextureName = unityPreviewInputTexture;
-            }
-
+            base.CollectPreviewMaterialProperties(properties);
             properties.Add(new PreviewProperty(PropertyType.Texture2D)
             {
-                name = inputTextureName
+                name = unityPreviewInputTexture ?? unityInputTexture
             });
         }
-
     }
 }

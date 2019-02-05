@@ -25,8 +25,7 @@ namespace ImageEffectGraph.PostProcessing
 #if UNITY_EDITOR
 
         private static int _PreviewTexture = Shader.PropertyToID("_PreviewTexture");
-//        private CommandBuffer previewCommandBuffer;
-        private RenderTexture rt;
+        private RenderTexture previewRenderTexture;
 
         public override void Init()
         {
@@ -35,15 +34,13 @@ namespace ImageEffectGraph.PostProcessing
             const string keyword = "UNITY_POST_PROCESSING_STACK_V2";
             Shader.EnableKeyword(keyword);
 
-            rt = new RenderTexture(512, 512, 32, RenderTextureFormat.ARGB32);
-//            previewCommandBuffer = new CommandBuffer();
+            previewRenderTexture = new RenderTexture(512, 512, 32, RenderTextureFormat.ARGB32);
         }
 
         public override void Release()
         {
             base.Release();
-            Object.DestroyImmediate(rt);
-//            previewCommandBuffer.Dispose();
+            Object.DestroyImmediate(previewRenderTexture);
         }
 #endif
 
@@ -57,14 +54,8 @@ namespace ImageEffectGraph.PostProcessing
 #if UNITY_EDITOR
             if (!context.isSceneView)
             {
-//                previewCommandBuffer.Clear();
-//                Blit(context.command, context.source, rt, null);
-                context.command.Blit(context.source, rt);
-//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
-                
-//                previewCommandBuffer.Clear();
-                context.command.SetGlobalTexture(_PreviewTexture, rt);
-//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
+                context.command.Blit(context.source, previewRenderTexture);
+                context.command.SetGlobalTexture(_PreviewTexture, previewRenderTexture);
             }
 #endif
         
@@ -73,7 +64,6 @@ namespace ImageEffectGraph.PostProcessing
             Blit(context.command, context.source, context.destination, settings.material);
             context.command.EndSample(sampleName);
         }
-
 
         private static void Blit(CommandBuffer command, RenderTargetIdentifier source, RenderTargetIdentifier destination,
             Material material, int pass = -1)
