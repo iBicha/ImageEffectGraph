@@ -24,8 +24,7 @@ Make sure to select an appropriate pipeline asset when trying a scene.
 ```
 <p align="center">
   <img src="Preview/transition.gif"><br>
-  <img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/invert.png" width="600"><br>
-  <i>Old screenshot: the "Main Texture" input is now separated from the sampler, use a "Sample Texture 2D" to sample it. (see examples and/or create a new effect)</i>
+  <img src="https://raw.github.com/iBicha/ImageEffectGraph/master/Preview/graph.png" width="600"><br>
 </p>
 
 ### Using multiple effects
