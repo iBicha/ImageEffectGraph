@@ -17,7 +17,7 @@ namespace ImageEffectGraph.PostProcessing
         public CameraFlagsParameter depthMode = new CameraFlagsParameter() {value = DepthTextureMode.None};
 
         [Tooltip("Apply to Game Mode Only")]
-        public GameModeOnlyParameter gameModeOnly = new GameModeOnlyParameter() {value = false};
+        public BoolParameter gameModeOnly = new BoolParameter() {value = false};
     }
 
     public class RenderWithMaterialRenderer : PostProcessEffectRenderer<RenderWithMaterial>
