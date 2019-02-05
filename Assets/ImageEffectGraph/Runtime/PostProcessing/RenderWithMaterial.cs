@@ -15,6 +15,9 @@ namespace ImageEffectGraph.PostProcessing
 
         [Tooltip("Depth texture mode.")]
         public CameraFlagsParameter depthMode = new CameraFlagsParameter() {value = DepthTextureMode.None};
+
+        [Tooltip("Apply to Game Mode Only")]
+        public BoolParameter gameModeOnly = new BoolParameter() {value = false};
     }
 
     public class RenderWithMaterialRenderer : PostProcessEffectRenderer<RenderWithMaterial>
@@ -71,6 +74,12 @@ namespace ImageEffectGraph.PostProcessing
 
                 context.command.Blit(context.source, previewRenderTexture, aspectBlit);
                 context.command.SetGlobalTexture(_PreviewTexture, previewRenderTexture);
+            }
+            else if(settings.gameModeOnly)
+            {
+                // We don't apply the post processing in Scene View.
+                context.command.Blit(context.source, context.destination);
+                return;
             }
 #endif
 
