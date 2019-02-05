@@ -15,6 +15,9 @@ namespace ImageEffectGraph.PostProcessing
 
         [Tooltip("Depth texture mode.")]
         public CameraFlagsParameter depthMode = new CameraFlagsParameter() {value = DepthTextureMode.None};
+
+        [Tooltip("Apply to Game Mode Only")]
+        public GameModeOnlyParameter gameModeOnly = new GameModeOnlyParameter() {value = false};
     }
 
     public class RenderWithMaterialRenderer : PostProcessEffectRenderer<RenderWithMaterial>
@@ -61,24 +64,23 @@ namespace ImageEffectGraph.PostProcessing
         public override void Render(PostProcessRenderContext context)
         {
 #if UNITY_EDITOR
-            // if (!context.isSceneView)
-            if(context.camera.cameraType == CameraType.Game)
+            if (context.camera.cameraType == CameraType.Game)
             {
-//                previewCommandBuffer.Clear();
-//                Blit(context.command, context.source, rt, null);
-                context.command.Blit(context.source, rt);
-//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);
-                
-//                previewCommandBuffer.Clear();
-                context.command.SetGlobalTexture(_PreviewTexture, rt);
-//                Graphics.ExecuteCommandBuffer(previewCommandBuffer);                
+                if (aspectBlit != null)
+                {
+                    aspectBlit.SetFloat(AspectRatio, context.width / (float) context.height);
+                    aspectBlit.SetColor(BackgroundColor, context.camera.backgroundColor);
+                }
+
+                context.command.Blit(context.source, previewRenderTexture, aspectBlit);
+                context.command.SetGlobalTexture(_PreviewTexture, previewRenderTexture);
             }
-            else
+            else if(settings.gameModeOnly)
             {
-                context.command.Blit(context.source, context.destination);
                 // We don't apply the post processing in Scene View.
+                context.command.Blit(context.source, context.destination);
                 return;
-            }            
+            }
 #endif
 
             var sampleName = $"RenderWithMaterial({settings.material})";
