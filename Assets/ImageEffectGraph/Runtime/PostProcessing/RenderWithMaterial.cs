@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
-using Object = UnityEngine.Object;
 
 namespace ImageEffectGraph.PostProcessing
 {
@@ -12,20 +12,23 @@ namespace ImageEffectGraph.PostProcessing
     {
         [Tooltip("Material used for rendering.")]
         public MaterialParameter material = new MaterialParameter();
-    
-        [Tooltip("Depth texture mode.")]
-        public CameraFlagsParameter depthMode = new CameraFlagsParameter(){value = DepthTextureMode.None};
 
+        [Tooltip("Depth texture mode.")]
+        public CameraFlagsParameter depthMode = new CameraFlagsParameter() {value = DepthTextureMode.None};
     }
 
     public class RenderWithMaterialRenderer : PostProcessEffectRenderer<RenderWithMaterial>
     {
-        private static int _MainTex = Shader.PropertyToID("_MainTex");
-                
+        private static readonly int _MainTex = Shader.PropertyToID("_MainTex");
+
 #if UNITY_EDITOR
 
-        private static int _PreviewTexture = Shader.PropertyToID("_PreviewTexture");
+        private static readonly int _PreviewTexture = Shader.PropertyToID("_PreviewTexture");
+        private static readonly int AspectRatio = Shader.PropertyToID("_AspectRatio");
+        private static readonly int BackgroundColor = Shader.PropertyToID("_BackgroundColor");
+
         private RenderTexture previewRenderTexture;
+        private Material aspectBlit;
 
         public override void Init()
         {
@@ -35,12 +38,18 @@ namespace ImageEffectGraph.PostProcessing
             Shader.EnableKeyword(keyword);
 
             previewRenderTexture = new RenderTexture(512, 512, 32, RenderTextureFormat.ARGB32);
+            var materialGuid = UnityEditor.AssetDatabase.FindAssets("AspectBlit").FirstOrDefault();
+            if (!string.IsNullOrEmpty(materialGuid))
+            {
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(materialGuid);
+                aspectBlit = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(path);
+            }
         }
 
         public override void Release()
         {
             base.Release();
-            Object.DestroyImmediate(previewRenderTexture);
+            UnityEngine.Object.DestroyImmediate(previewRenderTexture);
         }
 #endif
 
@@ -52,21 +61,27 @@ namespace ImageEffectGraph.PostProcessing
         public override void Render(PostProcessRenderContext context)
         {
 #if UNITY_EDITOR
-            if (!context.isSceneView)
+            if (context.camera.cameraType == CameraType.Game)
             {
-                context.command.Blit(context.source, previewRenderTexture);
+                if (aspectBlit != null)
+                {
+                    aspectBlit.SetFloat(AspectRatio, context.width / (float) context.height);
+                    aspectBlit.SetColor(BackgroundColor, context.camera.backgroundColor);
+                }
+
+                context.command.Blit(context.source, previewRenderTexture, aspectBlit);
                 context.command.SetGlobalTexture(_PreviewTexture, previewRenderTexture);
             }
 #endif
-        
+
             var sampleName = $"RenderWithMaterial({settings.material})";
             context.command.BeginSample(sampleName);
             Blit(context.command, context.source, context.destination, settings.material);
             context.command.EndSample(sampleName);
         }
 
-        private static void Blit(CommandBuffer command, RenderTargetIdentifier source, RenderTargetIdentifier destination,
-            Material material, int pass = -1)
+        private static void Blit(CommandBuffer command, RenderTargetIdentifier source,
+            RenderTargetIdentifier destination, Material material, int pass = -1)
         {
             if (material == null)
             {
@@ -80,7 +95,5 @@ namespace ImageEffectGraph.PostProcessing
 
             command.DrawMesh(RuntimeUtilities.fullscreenTriangle, Matrix4x4.identity, material, 0, pass);
         }
-    } 
-
+    }
 }
-

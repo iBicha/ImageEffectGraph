@@ -12,13 +12,13 @@ namespace ImageEffectGraph.Editor
 
         const string kOutputSlotName = "Out";
 
-        private string unityInputTexture;
-        private string unityPreviewInputTexture;
+        private string inputTexture;
+        public string previewInputTexture;
 
-        public BaseUnityTextureNode(string unityInputTexture, string unityPreviewInputTexture = null)
+        public BaseUnityTextureNode(string inputTexture, string previewInputTexture = null)
         {
-            this.unityInputTexture = unityInputTexture;
-            this.unityPreviewInputTexture = unityPreviewInputTexture;
+            this.inputTexture = inputTexture;
+            this.previewInputTexture = previewInputTexture;
             UpdateNodeAfterDeserialization();
         }
 
@@ -30,14 +30,8 @@ namespace ImageEffectGraph.Editor
 
         public override string GetVariableNameForSlot(int slotId)
         {
-            var generationMode = Environment.StackTrace.Contains(".PreviewManager.")
-                ? GenerationMode.Preview
-                : GenerationMode.ForReals;
-
             if (slotId == OutputSlotId)
-                return generationMode.IsPreview() && !string.IsNullOrEmpty(unityPreviewInputTexture)
-                    ? unityPreviewInputTexture
-                    : unityInputTexture;
+                return inputTexture;
 
             return base.GetVariableNameForSlot(slotId);
         }
@@ -48,16 +42,16 @@ namespace ImageEffectGraph.Editor
             properties.AddShaderProperty(new TextureShaderProperty()
             {
                 displayName = "Main Texture",
-                overrideReferenceName = unityInputTexture,
+                overrideReferenceName = inputTexture,
                 generatePropertyBlock = false
             });
 
-            if (generationMode.IsPreview() && !string.IsNullOrEmpty(unityPreviewInputTexture))
+            if (generationMode.IsPreview() && !string.IsNullOrEmpty(previewInputTexture))
             {
                 properties.AddShaderProperty(new TextureShaderProperty()
                 {
                     displayName = "Preview Texture",
-                    overrideReferenceName = unityPreviewInputTexture,
+                    overrideReferenceName = previewInputTexture,
                     generatePropertyBlock = false
                 });
             }
@@ -68,7 +62,8 @@ namespace ImageEffectGraph.Editor
             base.CollectPreviewMaterialProperties(properties);
             properties.Add(new PreviewProperty(PropertyType.Texture2D)
             {
-                name = unityPreviewInputTexture ?? unityInputTexture
+                name = inputTexture,
+                textureValue = Shader.GetGlobalTexture(previewInputTexture)
             });
         }
     }
