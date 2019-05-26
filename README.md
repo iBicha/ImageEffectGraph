@@ -9,6 +9,7 @@ Image effects for post processing stack created with shader graph for Unity
 
 This repo is attempt to extend ShaderGraph to create postprocessing effects compatible with the Postprocessing Stack, using the either the new Scriptable Render Pipeline (HD/Lightweight) or legacy graphics.
 
+##### :warning: 2019.1 is not supported. Unity made its shadergraph api less accessible, making custom master nodes not possible. See <a href="https://github.com/iBicha/ImageEffectGraph/issues/11">#11</a>  
 ##### :warning: This repo is extremely experimental, hacky and buggy. For now, it is everything you don't want to use in production. 
 (In simpler words, things are constantly getting fixes, and there are constant changes to serialization and shader generation, which might not be backward compatible with effects created with a previous version of this tool. This shall change once this repo gets to a stable state)
 
