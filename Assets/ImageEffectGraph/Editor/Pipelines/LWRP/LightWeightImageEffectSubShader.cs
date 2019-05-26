@@ -64,7 +64,7 @@ namespace ImageEffectGraph.Editor.LightweightPipeline
             subShader.AppendLine("SubShader");
             using (subShader.BlockScope())
             {
-                subShader.AppendLine("Tags{ \"RenderPipeline\" = \"LightweightPipeline\"}");
+                subShader.AppendLine("Tags{ \"RenderPipeline\" = \"LightweightPipeline\" \"PreviewType\" = \"Plane\"}");
 
 //                var materialTags = ShaderGenerator.BuildMaterialTags(imageEffectMasterNode.surfaceType);
 //                var tagsBuilder = new ShaderStringBuilder(0);

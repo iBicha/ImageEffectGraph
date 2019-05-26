@@ -63,7 +63,7 @@ namespace ImageEffectGraph.Editor.Legacy
             subShader.AppendLine("SubShader");
             using (subShader.BlockScope())
             {
-                //subShader.AppendLine("Tags{ \"RenderPipeline\" = \"None\"}");
+                subShader.AppendLine("Tags{ \"PreviewType\" = \"Plane\"}");
 
 //                var materialTags = ShaderGenerator.BuildMaterialTags(imageEffectMasterNode.surfaceType);
 //                var tagsBuilder = new ShaderStringBuilder(0);

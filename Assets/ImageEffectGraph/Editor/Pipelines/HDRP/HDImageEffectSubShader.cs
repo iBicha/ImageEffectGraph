@@ -64,7 +64,7 @@ namespace ImageEffectGraph.Editor.HDPipeline
             subShader.AppendLine("SubShader");
             using (subShader.BlockScope())
             {
-                subShader.AppendLine("Tags{ \"RenderPipeline\" = \"HDRenderPipeline\"}");
+                subShader.AppendLine("Tags{ \"RenderPipeline\" = \"HDRenderPipeline\" \"PreviewType\" = \"Plane\"}");
 
 //                var materialTags = ShaderGenerator.BuildMaterialTags(imageEffectMasterNode.surfaceType);
 //                var tagsBuilder = new ShaderStringBuilder(0);
