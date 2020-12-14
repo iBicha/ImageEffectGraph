@@ -2,13 +2,17 @@
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+#if UNITY_2019_1_OR_NEWER
+using UnityEngine.UIElements;
+#else
 using UnityEngine.Experimental.UIElements;
+#endif
 
 namespace ImageEffectGraph.Editor
 {
     [Serializable]
     [Title("Master", "Image Effect")]
-    public class ImageEffectMasterNode : MasterNode<IImageEffectSubShader>
+    internal class ImageEffectMasterNode : MasterNode<IImageEffectSubShader>
     {
         public const string ColorSlotName = "Color";
 

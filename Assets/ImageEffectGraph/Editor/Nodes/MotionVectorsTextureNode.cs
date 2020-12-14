@@ -3,7 +3,7 @@
 namespace ImageEffectGraph.Editor
 {
     [Title("Input", "Image Effects", "Motion Vectors Texture")]
-    public class MotionVectorsTextureNode : BaseUnityTextureNode
+    internal class MotionVectorsTextureNode : BaseUnityTextureNode
     {
         public MotionVectorsTextureNode() : base("_CameraMotionVectorsTexture")
         {

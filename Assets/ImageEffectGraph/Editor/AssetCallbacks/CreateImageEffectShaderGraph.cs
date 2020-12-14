@@ -19,7 +19,7 @@ namespace ImageEffectGraph.Editor
 
         public override void Action(int instanceId, string pathName, string resourceFile)
         {
-            var graph = new MaterialGraph();
+            var graph = new GraphData();
 
             var mainTextureNode = new MainTextureNode();
             var mainTextureSamplerNode = new SampleTexture2DNode();

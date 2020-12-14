@@ -3,7 +3,7 @@
 namespace ImageEffectGraph.Editor
 {
     [Title("Input", "Image Effects", "Depth Texture")]
-    public class DepthTextureNode : BaseUnityTextureNode
+    internal class DepthTextureNode : BaseUnityTextureNode
     {
         public DepthTextureNode() : base("_CameraDepthTexture")
         {

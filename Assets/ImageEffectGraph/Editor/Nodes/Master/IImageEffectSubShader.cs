@@ -2,7 +2,7 @@
 
 namespace ImageEffectGraph.Editor
 {
-    public interface IImageEffectSubShader : ISubShader
+    internal interface IImageEffectSubShader : ISubShader
     {
     }
 }

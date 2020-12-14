@@ -6,7 +6,7 @@ using UnityEditor.ShaderGraph;
 
 namespace ImageEffectGraph.Editor
 {
-    public abstract class BaseUnityTextureNode : AbstractMaterialNode
+    internal abstract class BaseUnityTextureNode : AbstractMaterialNode
     {
         public const int OutputSlotId = 0;
 

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ICSharpCode.NRefactory.Ast;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
 
 namespace ImageEffectGraph.Editor.Legacy
 {
     [Serializable]
-    public class LegacyImageEffectSubShader : IImageEffectSubShader
+    internal class LegacyImageEffectSubShader : IImageEffectSubShader
     {
         static readonly NeededCoordinateSpace k_PixelCoordinateSpace = NeededCoordinateSpace.None;
 
@@ -135,11 +137,11 @@ namespace ImageEffectGraph.Editor.Legacy
             // Get Slot and Node lists per stage
 
             var vertexSlots = pass.VertexShaderSlots.Select(masterNode.FindSlot<MaterialSlot>).ToList();
-            var vertexNodes = ListPool<INode>.Get();
+            var vertexNodes = ListPool<AbstractMaterialNode>.Get();
             NodeUtils.DepthFirstCollectNodesFromNode(vertexNodes, masterNode, NodeUtils.IncludeSelf.Include, pass.VertexShaderSlots);
 
             var pixelSlots = pass.PixelShaderSlots.Select(masterNode.FindSlot<MaterialSlot>).ToList();
-            var pixelNodes = ListPool<INode>.Get();
+            var pixelNodes = ListPool<AbstractMaterialNode>.Get();
             NodeUtils.DepthFirstCollectNodesFromNode(pixelNodes, masterNode, NodeUtils.IncludeSelf.Include, pass.PixelShaderSlots);
 
             // -------------------------------------
@@ -233,7 +235,7 @@ namespace ImageEffectGraph.Editor.Legacy
             // Generate Vertex Description function
 
             GraphUtil.GenerateVertexDescriptionFunction(
-                masterNode.owner as AbstractMaterialGraph,
+                masterNode.owner, 
                 vertexDescriptionFunction,
                 functionRegistry,
                 shaderProperties,
@@ -282,7 +284,7 @@ namespace ImageEffectGraph.Editor.Legacy
             GraphUtil.GenerateSurfaceDescriptionFunction(
                 pixelNodes,
                 masterNode,
-                masterNode.owner as AbstractMaterialGraph,
+                masterNode.owner,
                 surfaceDescriptionFunction,
                 functionRegistry,
                 shaderProperties,
